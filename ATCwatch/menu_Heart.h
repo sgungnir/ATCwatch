@@ -69,6 +69,11 @@ class HeartScreen : public Screen
     {
       return 50000;
     }
+    
+    virtual void left()
+    {
+      inc_vars_sideways();
+    }
 
     virtual void right()
     {

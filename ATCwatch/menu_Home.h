@@ -21,6 +21,8 @@ class HomeScreen : public Screen
   public:
     virtual void pre()
     {
+      zero_vars_sideways();
+      
       time_data = get_time();
       accl_data = get_accl_data();
 
@@ -178,6 +180,7 @@ class HomeScreen : public Screen
 
     virtual void left()
     {
+      inc_vars_sideways();
     }
 
     virtual void right()

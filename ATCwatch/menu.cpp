@@ -29,6 +29,8 @@
 long last_main_run;
 int vars_menu = -1;
 int vars_max_menu = 4;
+int vars_sideways = 0;
+int vars_max_sideways = 5;
 bool swipe_enabled_bool = false;
 
 BootScreen bootScreen;
@@ -55,7 +57,7 @@ app_struct debugApp = {"Debug", &IsymbolDebug, &debugScreen};
 
 app_struct rebootApp = {"Reboot", &IsymbolReboot, &rebootScreen};
 app_struct updateApp = {"Bootloader", &IsymbolBootloader, &updateScreen};
-app_struct offApp = {"Schutdown", &IsymbolShutdown, &offScreen};
+app_struct offApp = {"Shutdown", &IsymbolShutdown, &offScreen};
 app_struct settingsApp = {"Settings", &IsymbolSettings, &settingsScreen};
 
 app_struct animationApp = {"Animation", &IsymbolAnimation, &animationScreen};
@@ -75,6 +77,7 @@ Screen *oldScreen = &homeScreen;
 Screen *lastScreen = &homeScreen;
 Screen *menus[5] = {&homeScreen, &apps1Screen, &apps2Screen, &apps3Screen, &apps4Screen};
 
+Screen *menus_sideway[5] = {&homeScreen, &notifyScreen, &heartScreen, &settingsScreen, &infosScreen};
 void init_menu() {
 
 }
@@ -83,6 +86,7 @@ void display_home() {
   lastScreen = currentScreen;
   currentScreen = &homeScreen;
   vars_menu = 0;
+  vars_sideways=0;
 }
 
 void display_notify() {
@@ -161,7 +165,12 @@ int get_sleep_time_menu() {
 }
 
 void set_last_menu() {
+  if (vars_sideways>0) {
+    vars_sideways--;
+    currentScreen = menus_sideway[vars_sideways];
+  } else {
   currentScreen = lastScreen;
+  }
 }
 
 void set_swipe_enabled(bool state) {
@@ -170,6 +179,17 @@ void set_swipe_enabled(bool state) {
 
 bool swipe_enabled() {
   return swipe_enabled_bool;
+}
+
+void inc_vars_sideways() {
+  //lastScreen = currentScreen;
+  vars_sideways++;
+  if (vars_sideways > vars_max_sideways)vars_sideways = 0;
+  currentScreen = menus_sideway[vars_sideways];
+}
+
+void zero_vars_sideways() {
+  vars_sideways = 0;
 }
 
 void inc_vars_menu() {

@@ -19,6 +19,8 @@ void change_screen(Screen* screen);
 void set_last_menu();
 void set_swipe_enabled(bool state);
 bool swipe_enabled();
+void inc_vars_sideways();
+void zero_vars_sideways();
 void inc_vars_menu();
 void dec_vars_menu();
 static void lv_event_handler(lv_obj_t * object, lv_event_t event);

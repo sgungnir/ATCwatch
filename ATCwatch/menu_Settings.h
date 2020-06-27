@@ -72,6 +72,11 @@ class SettingsScreen : public Screen
       lv_label_set_text_fmt(label_backlight_big, "%i", get_backlight());
     }
 
+    virtual void left()
+    {
+      inc_vars_sideways();
+    }
+
     virtual void right()
     {
       set_last_menu();

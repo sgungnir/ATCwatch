@@ -46,12 +46,12 @@ class NotifyScreen : public Screen
 
     virtual void left()
     {
-      display_home();
+      inc_vars_sideways();
     }
 
     virtual void right()
     {
-      display_home();
+      set_last_menu();
     }
 
     virtual void up()
