@@ -10,6 +10,7 @@ struct time_data_struct {
   int hr;
   int min;
   int sec;
+  int dayofweek;
 };
 
 void init_time();

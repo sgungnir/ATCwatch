@@ -29,11 +29,11 @@ class HomeScreen : public Screen
       st.text.font = &mksd50;
 
       label_time = lv_label_create(lv_scr_act(), NULL);
-      lv_label_set_text(label_time, "00:00:00");
+      lv_label_set_text(label_time, "00:00:00am");
       lv_obj_set_style( label_time, &st );
       lv_obj_align(label_time, NULL, LV_ALIGN_CENTER, 0, -40);
       label_date = lv_label_create(lv_scr_act(), NULL);
-      lv_label_set_text(label_date, "00.00.0000");
+      lv_label_set_text(label_date, "day 00.00");
       lv_obj_set_style( label_date, &st );
       lv_obj_align(label_date, NULL, LV_ALIGN_CENTER, 0, 30);
 
@@ -96,13 +96,54 @@ class HomeScreen : public Screen
 
     virtual void main()
     {
+      
       time_data = get_time();
       accl_data = get_accl_data();
       char time_string[14];
-      sprintf(time_string, "%02i:%02i:%02i", time_data.hr, time_data.min, time_data.sec);
-      char date_string[14];
-      sprintf(date_string, "%02i.%02i.%04i", time_data.day, time_data.month, time_data.year);
+      int hr=time_data.hr;
+      bool pm=false;
+      if (hr<12) {
+        if (hr==0) hr=12;
+        pm=false;
+      } else {
+        if (hr>12) hr-=12;
+        pm=true;
+      }
 
+      if(pm){
+      sprintf(time_string, "%02i:%02i:%02ipm", hr, time_data.min, time_data.sec);
+      } else {
+      sprintf(time_string, "%02i:%02i:%02iam", hr, time_data.min, time_data.sec);
+      }
+
+      char date_string[14];
+      sprintf(date_string, "aaa %02i.%02i", time_data.month,time_data.day);
+
+      switch(time_data.dayofweek)
+      {
+      case 1:
+        date_string[0]='s';date_string[1]='u';date_string[2]='n';
+        break;  
+      case 2:
+        date_string[0]='m';date_string[1]='o';date_string[2]='n';
+        break;  
+      case 3:
+        date_string[0]='t';date_string[1]='u';date_string[2]='e';
+        break;  
+      case 4:
+        date_string[0]='w';date_string[1]='e';date_string[2]='d';
+        break;  
+      case 5:
+        date_string[0]='t';date_string[1]='h';date_string[2]='u';
+        break;  
+      case 6:
+        date_string[0]='f';date_string[1]='r';date_string[2]='i';
+        break;  
+      case 7:
+        date_string[0]='s';date_string[1]='a';date_string[2]='t';
+        break;  
+      }
+      
       lv_label_set_text(label_time, time_string);
       lv_label_set_text(label_date, date_string);
 
