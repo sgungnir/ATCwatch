@@ -1,3 +1,29 @@
+This is a fork of Aaron Christophel's excellent P8WATCH arduino firmware.
+
+The original code has european (international) date format (day/month/year), and 24hr time, changed this to US format (easy to revert) but also added day of the week (removed year for space reasons).
+
+The time is now in 12hr format with AM/PM indicator.
+
+I plan to make the date and hour format change optional (have a compile option) but for now it is stuck in US format (easy to revert).
+
+A new sideways navigation allows quick access to the main apps without removing the "app drawer" vertical navigation that has all the diagnositcs (as well as the main apps).
+
+Sideways navigation Home, Notifications, Calendar(new), Heart Rate, Settings and Info screen (easy to change array defined in menu.cpp
+
+I have added a Calendar app (very simple, will update style to match, more features come later) with a vertical navigation for the months (starts on current date, slide up for next month, down for previous month)
+
+Icons now have alpha and I am slowly changing them to have rounded edges.
+
+Standard header for all pages is the goal (just starting with this, only notify has it now) to include date/ time and small app icon on the top of every page.
+
+General font and format changes are in progress to have every page in the same format.
+
+## License:
+Orignal license holds, see below...
+
+ORIGINAL REPO INFO BELOW, VERY IMPORTANT FOR COMPILING AND ATTRIBUTION, THANKS AGAIN TO Aaron Christophel!!
+
+-------------------------------------------------------------------------------------------------------------------------
 # ATCwatch  -WatcH
 Custom Arduino C++ firmware for the P8 and PineTime plus many more DaFit Smartwatches
 

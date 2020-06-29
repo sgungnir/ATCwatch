@@ -29,7 +29,8 @@ class InfosScreen : public Screen
       lv_label_set_text(label,
                         "Infos:\n"
                         "Firmware By:\n"
-                        "   ATCnetz.de\n"
+                        "Rafael Ramos\n"
+                        "Based on ATCnetz.de\n"
                         "    (Aaron Christophel)\n"
                         "  Compiled:\n"
                         "  "__DATE__"\n"
