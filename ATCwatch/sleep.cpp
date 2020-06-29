@@ -2,6 +2,7 @@
 #include "sleep.h"
 #include "Arduino.h"
 #include "pinout.h"
+#include "i2c.h"
 #include "battery.h"
 #include "display.h"
 #include "backlight.h"
@@ -19,7 +20,6 @@ bool sleep_enable = false;
 bool sleep_sleeping = false;
 int wakeup_reason = 0;
 long lastaction = 0;
-volatile bool i2cReading = false;
 long last_sleep_check;
 
 void init_sleep() {
@@ -37,10 +37,10 @@ bool get_sleep() {
 
 bool sleep_up(int reason) {
   if (sleep_sleeping) {
+    sleep_touch(false);
     wakeup_reason = reason;
     sleep_sleeping = false;
     set_sleep_time();
-    //sleep_touch(false);
     display_enable(true);
     set_backlight();
     if (get_charge()) {
@@ -65,6 +65,7 @@ int get_wakeup_reason() {
 }
 
 void disable_hardware() {
+  sleep_touch(true);
   set_backlight(0);
   inc_tick();
   display_home();
@@ -72,7 +73,6 @@ void disable_hardware() {
   end_hrs3300();
   set_led(0);
   set_motor(0);
-  //sleep_touch(true);
   display_enable(false);
   NRF_SAADC ->ENABLE = 0; //disable ADC
   NRF_PWM0  ->ENABLE = 0; //disable all pwm instance
@@ -111,14 +111,6 @@ bool get_timed_int() {
   return temp;
 }
 
-void set_i2cReading(bool state) {
-  i2cReading = state;
-}
-
-bool get_i2cReading() {
-  return i2cReading;
-}
-
 #define LF_FREQUENCY 32768UL
 #define SECONDS(x) ((uint32_t)((LF_FREQUENCY * x) + 0.5))
 #define wakeUpSeconds 0.040
@@ -151,7 +143,7 @@ void RTC2_IRQHandler(void)
     shot = true;
     if (!sleep_sleeping)inc_tick();
     check_inputoutput_times();
-    if (!i2cReading)get_heartrate_ms();
+    if (!get_i2cReading())get_heartrate_ms();
   }
 }
 #ifdef __cplusplus
