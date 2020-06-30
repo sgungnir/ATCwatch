@@ -1,4 +1,4 @@
-This is a fork of Aaron Christophel's excellent P8WATCH arduino firmware.
+This is a fork of Aaron Christophel's excellent ATCwatch arduino firmware for P8 smartwatch.
 
 The original code has european (international) date format (day/month/year), and 24hr time, changed this to US format (easy to revert) but also added day of the week (removed year for space reasons).
 
