@@ -17,8 +17,11 @@
 #include "menu_Notify.h"
 #include "menu_Calendar.h"
 #include "menu_Battery.h"
-#include "menu_Settings.h"
-#include "menu_animation.h"
+#include "menu_Settings_Time.h"
+#include "menu_Settings_Date.h"
+#include "menu_Settings_Color.h"
+#include "menu_Settings_Brightness.h"
+#include "menu_Animation.h"
 #include "menu_infos.h"
 #include "menu_Accl.h"
 #include "menu_App.h"
@@ -26,33 +29,21 @@
 #include "menu_Charging.h"
 #include "menu_Flash.h"
 #include "menu_Touch.h"
+#include "menu_Http.h"
+#include "menu_Log.h"
+#include "menu_Settings.h"
 #include <lvgl.h>
 
 long last_main_run;
 int vars_menu = -1;
-int vars_max_menu = 4;
+int vars_max_menu = 5;
 int vars_sideways = 0;
 int vars_max_sideways = 6;
 bool swipe_enabled_bool = false;
 
-BootScreen bootScreen;
-HomeScreen homeScreen;
-HeartScreen heartScreen;
-DebugScreen debugScreen;
-RebootScreen rebootScreen;
-UpdateScreen updateScreen;
-OffScreen offScreen;
-NotifyScreen notifyScreen;
-BatteryScreen batteryScreen;
-SettingsScreen settingsScreen;
-AnimationScreen animationScreen;
-InfosScreen infosScreen;
-AcclScreen acclScreen;
-DemoScreen demoScreen;
-ChargingScreen chargingScreen;
-FlashScreen flashScreen;
-CalendarScreen calendarScreen;
-TouchScreen touchScreen;
+Screen *currentScreen = &homeScreen;
+Screen *oldScreen = &homeScreen;
+Screen *lastScreen = &homeScreen;
 
 app_struct notifyApp = {"Notify", &IsymbolMsg, &notifyScreen};
 app_struct heartApp = {"Heartrate", &IsymbolHeart, &heartScreen};
@@ -71,18 +62,19 @@ app_struct demoApp = {"Demo", &IsymbolChart , &demoScreen};
 
 app_struct flashApp = {"Flash_test", &IsymbolChart , &flashScreen};
 app_struct touchApp = {"Touch", &IsymbolMouse , &touchScreen};
+app_struct httpApp = {"HTTP", &IsymbolMouse , &httpScreen};
+app_struct logApp = {"Logging", &IsymbolAnimation , &logScreen};
 
-app_struct calendarApp = {"Calendar", &IsymbolMsg, &calendarScreen};
+app_struct calendarApp = {"Calendar", &IsymbolMsg , &calendarScreen};
 
-AppScreen apps1Screen(1, &notifyApp, &heartApp, &debugApp, &animationApp);
-AppScreen apps2Screen(2, &rebootApp, &updateApp, &offApp, &settingsApp);
-AppScreen apps3Screen(3, &infosApp, &acclApp, &demoApp, &batteryApp);
-AppScreen apps4Screen(4, &calendarApp, &touchApp, &flashApp, &flashApp);
+int maxApps = 4;
+AppScreen apps1Screen(1, maxApps, &notifyApp, &heartApp, &debugApp, &animationApp);
+AppScreen apps2Screen(2, maxApps, &rebootApp, &updateApp, &offApp, &settingsApp);
+AppScreen apps3Screen(3, maxApps, &infosApp, &acclApp, &demoApp, &batteryApp);
+AppScreen apps4Screen(4, maxApps, &flashApp, &touchApp, &httpApp, &logApp);
+AppScreen apps5Screen(5, maxApps, &calendarApp, &calendarApp, &calendarApp, &calendarApp);
 
-Screen *currentScreen = &homeScreen;
-Screen *oldScreen = &homeScreen;
-Screen *lastScreen = &homeScreen;
-Screen *menus[5] = {&homeScreen, &apps1Screen, &apps2Screen, &apps3Screen, &apps4Screen};
+Screen *menus[6] = {&homeScreen, &apps1Screen, &apps2Screen, &apps3Screen, &apps4Screen, &apps5Screen};
 
 Screen *menus_sideway[6] = {&homeScreen, &notifyScreen, &calendarScreen, &heartScreen, &settingsScreen, &infosScreen};
 void init_menu() {
@@ -156,10 +148,6 @@ void check_menu(touch_data_struct touch_data) {
 
 uint32_t get_menu_delay_time() {
   return currentScreen->refreshTime();
-}
-
-void select_app(int id) {
-
 }
 
 void change_screen(Screen* screen) {

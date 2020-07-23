@@ -11,7 +11,6 @@
 #include "accl.h"
 #include "push.h"
 #include "heartrate.h"
-#include "mksd50.h"
 
 
 class CalendarScreen : public Screen
@@ -19,7 +18,7 @@ class CalendarScreen : public Screen
   public:
     virtual void pre()
     {
-      set_gray_screen_style(&sans_regular);
+
       time_data = get_time();
   
       calendar = lv_calendar_create(lv_scr_act(), NULL);
@@ -37,6 +36,21 @@ class CalendarScreen : public Screen
 
       lv_calendar_set_today_date(calendar, &today);
       lv_calendar_set_showed_date(calendar, &showDate);
+
+      lv_style_copy( &style_header,     lv_calendar_get_style(calendar, LV_CALENDAR_STYLE_HEADER));
+      lv_style_copy( &style_bg,         lv_calendar_get_style(calendar, LV_CALENDAR_STYLE_BG));
+    
+      style_header.body.main_color    = color_list[main_color_save];
+      style_header.body.grad_color    = color_list[main_color_save];
+      style_header.text.color         = color_list[font_color_save];
+
+      style_bg.text.color               = color_list[font_color_save];
+      style_bg.body.main_color          = color_list[main_color_save];
+      style_bg.body.grad_color          = color_list[grad_color_save];
+
+      lv_calendar_set_style(calendar, LV_CALENDAR_STYLE_HEADER,       &style_header);
+      lv_calendar_set_style(calendar, LV_CALENDAR_STYLE_BG,           &style_bg);
+
     }
 
     virtual void main()
@@ -84,4 +98,8 @@ class CalendarScreen : public Screen
     lv_obj_t *calendar;
     lv_calendar_date_t today;
     lv_calendar_date_t showDate;
+    lv_style_t style_header;
+    lv_style_t style_bg;
 };
+
+CalendarScreen calendarScreen;

@@ -39,3 +39,5 @@ class BootScreen : public Screen
 
   private:
 };
+
+BootScreen bootScreen;

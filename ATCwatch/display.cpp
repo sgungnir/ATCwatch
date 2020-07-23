@@ -97,16 +97,17 @@ void display_enable(bool state) {
 void setAddrWindowDisplay(uint32_t x, uint32_t y, uint32_t w, uint32_t h)
 {
   uint8_t temp[4];
+  //y += 80; // when rotated screen
   spiCommand(0x2A);
-  temp[0] = 0x00;
+  temp[0] = (x >> 8);
   temp[1] = x;
-  temp[2] = 0x00;
+  temp[2] = ((x + w - 1) >> 8);
   temp[3] = (x + w - 1);
   write_fast_spi(temp, 4);
   spiCommand(0x2B);
-  temp[0] = 0x00;
+  temp[0] = (y >> 8 );
   temp[1] = y;
-  temp[2] = 0x00;
+  temp[2] = ((y + h - 1) >> 8);
   temp[3] = ((y + h - 1) & 0xFF);
   write_fast_spi(temp, 4);
   spiCommand(0x2C);
@@ -130,18 +131,12 @@ void initDisplay() {
   delay(100);
   startWrite_display();
   spiCommand(54);
-  spiWrite(0);
-  temp[0] = 0x00;
+  temp[0] = 0x00;//0xC0 when rotated screen
   write_fast_spi(temp, 1);
   spiCommand(58);
   temp[0] = 5;
   write_fast_spi(temp, 1);
   spiCommand(178);
-  spiWrite(12);
-  spiWrite(12);
-  spiWrite(0);
-  spiWrite(51);
-  spiWrite(51);
   temp[0] = 12;
   temp[1] = 12;
   temp[2] = 0;
@@ -218,10 +213,6 @@ void spiCommand(uint8_t d) {
   digitalWrite(LCD_RS , LOW);
   write_fast_spi(&d, 1);
   digitalWrite(LCD_RS , HIGH);
-}
-
-void spiWrite(uint8_t d) {
-  write_fast_spi(&d, 1);
 }
 
 void startWrite_display(void) {
