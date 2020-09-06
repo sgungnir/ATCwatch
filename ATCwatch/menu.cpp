@@ -9,7 +9,6 @@
 #include "display.h"
 #include "menu_Boot.h"
 #include "menu_Home.h"
-#include "menu_Heart.h"
 #include "menu_Debug.h"
 #include "menu_Reboot.h"
 #include "menu_Update.h"
@@ -36,9 +35,9 @@
 
 long last_main_run;
 int vars_menu = -1;
-int vars_max_menu = 5;
+int vars_max_menu = 1;
 int vars_sideways = 0;
-int vars_max_sideways = 6;
+int vars_max_sideways = 5;
 bool swipe_enabled_bool = false;
 
 Screen *currentScreen = &homeScreen;
@@ -46,37 +45,36 @@ Screen *oldScreen = &homeScreen;
 Screen *lastScreen = &homeScreen;
 
 app_struct notifyApp = {"Notify", &IsymbolMsg, &notifyScreen};
-app_struct heartApp = {"Heartrate", &IsymbolHeart, &heartScreen};
-app_struct batteryApp = {"Battery", &IsymbolBatteryBig, &batteryScreen};
+//app_struct batteryApp = {"Battery", &IsymbolBatteryBig, &batteryScreen};
 app_struct debugApp = {"Debug", &IsymbolDebug, &debugScreen};
 
 app_struct rebootApp = {"Reboot", &IsymbolReboot, &rebootScreen};
-app_struct updateApp = {"Bootloader", &IsymbolBootloader, &updateScreen};
+//app_struct updateApp = {"Bootloader", &IsymbolBootloader, &updateScreen};
 app_struct offApp = {"Shutdown", &IsymbolShutdown, &offScreen};
 app_struct settingsApp = {"Settings", &IsymbolSettings, &settingsScreen};
 
-app_struct animationApp = {"Animation", &IsymbolAnimation, &animationScreen};
+//app_struct animationApp = {"Animation", &IsymbolAnimation, &animationScreen};
 app_struct infosApp = {"Infos", &IsymbolInfos, &infosScreen};
-app_struct acclApp = {"Accl", &IsymbolAccl , &acclScreen};
-app_struct demoApp = {"Demo", &IsymbolChart , &demoScreen};
+//app_struct acclApp = {"Accl", &IsymbolAccl , &acclScreen};
+//app_struct demoApp = {"Demo", &IsymbolChart , &demoScreen};
 
-app_struct flashApp = {"Flash_test", &IsymbolChart , &flashScreen};
+//app_struct flashApp = {"Flash_test", &IsymbolChart , &flashScreen};
 app_struct touchApp = {"Touch", &IsymbolMouse , &touchScreen};
-app_struct httpApp = {"HTTP", &IsymbolMouse , &httpScreen};
-app_struct logApp = {"Logging", &IsymbolAnimation , &logScreen};
+//app_struct httpApp = {"HTTP", &IsymbolMouse , &httpScreen};
+//app_struct logApp = {"Logging", &IsymbolAnimation , &logScreen};
 
 app_struct calendarApp = {"Calendar", &IsymbolMsg , &calendarScreen};
 
-int maxApps = 4;
-AppScreen apps1Screen(1, maxApps, &notifyApp, &heartApp, &debugApp, &animationApp);
-AppScreen apps2Screen(2, maxApps, &rebootApp, &updateApp, &offApp, &settingsApp);
-AppScreen apps3Screen(3, maxApps, &infosApp, &acclApp, &demoApp, &batteryApp);
-AppScreen apps4Screen(4, maxApps, &flashApp, &touchApp, &httpApp, &logApp);
-AppScreen apps5Screen(5, maxApps, &calendarApp, &calendarApp, &calendarApp, &calendarApp);
+int maxApps = 1;
+AppScreen apps1Screen(1, maxApps, &touchApp, &debugApp, &settingsApp, &offApp);
+//AppScreen apps2Screen(2, maxApps, &rebootApp, &updateApp, &offApp, &settingsApp);
+//AppScreen apps3Screen(3, maxApps, &infosApp, &acclApp, &demoApp, &batteryApp);
+//AppScreen apps4Screen(4, maxApps, &flashApp, &touchApp, &httpApp, &logApp);
+//AppScreen apps5Screen(5, maxApps, &calendarApp, &calendarApp, &calendarApp, &calendarApp);
 
-Screen *menus[6] = {&homeScreen, &apps1Screen, &apps2Screen, &apps3Screen, &apps4Screen, &apps5Screen};
+Screen *menus[2] = {&homeScreen, &apps1Screen};//, &apps2Screen, &apps3Screen, &apps4Screen, &apps5Screen};
 
-Screen *menus_sideway[6] = {&homeScreen, &notifyScreen, &calendarScreen, &heartScreen, &settingsScreen, &infosScreen};
+Screen *menus_sideway[5] = {&homeScreen, &notifyScreen, &calendarScreen, &settingsScreen, &infosScreen};
 void init_menu() {
 
 }

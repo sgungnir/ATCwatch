@@ -10,7 +10,6 @@
 #include "battery.h"
 #include "accl.h"
 #include "push.h"
-#include "heartrate.h"
 #include <lvgl.h>
 
 struct app_struct {

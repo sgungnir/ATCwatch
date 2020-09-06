@@ -10,7 +10,6 @@
 #include "battery.h"
 #include "accl.h"
 #include "push.h"
-#include "heartrate.h"
 
 class TouchScreen : public Screen
 {

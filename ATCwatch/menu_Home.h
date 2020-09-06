@@ -11,7 +11,6 @@
 #include "battery.h"
 #include "accl.h"
 #include "push.h"
-#include "heartrate.h"
 #include "fonts.h"
 #include <lvgl.h>
 
@@ -70,7 +69,7 @@ class HomeScreen : public Screen
 
       label_heart = lv_label_create(lv_scr_act(), NULL);
       lv_obj_set_width(label_heart, 240);
-      lv_label_set_text_fmt(label_heart, "%i", get_last_heartrate());
+//      lv_label_set_text_fmt(label_heart, "%i", get_last_heartrate());
       lv_obj_align(label_heart, img_heart, LV_ALIGN_OUT_RIGHT_MID, 2, 0);
 
 
@@ -160,7 +159,7 @@ class HomeScreen : public Screen
 
       lv_label_set_text_fmt(label_battery, "%i%%", get_battery_percent());
 
-      lv_label_set_text_fmt(label_heart, "%i", get_last_heartrate());
+//      lv_label_set_text_fmt(label_heart, "%i", get_last_heartrate());
       lv_label_set_text_fmt(label_steps, "%i", accl_data.steps);
 
       if (get_vars_ble_connected())

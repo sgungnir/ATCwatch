@@ -6,7 +6,6 @@
 #include "battery.h"
 #include "display.h"
 #include "backlight.h"
-#include "heartrate.h"
 #include "touch.h"
 #include "accl.h"
 #include "menu.h"
@@ -70,7 +69,6 @@ void disable_hardware() {
   inc_tick();
   display_home();
   display_screen(true);
-  end_hrs3300();
   set_led(0);
   set_motor(0);
   display_enable(false);
@@ -143,7 +141,6 @@ void RTC2_IRQHandler(void)
     shot = true;
     if (!sleep_sleeping)inc_tick();
     check_inputoutput_times();
-    if (!get_i2cReading())get_heartrate_ms();
   }
 }
 #ifdef __cplusplus

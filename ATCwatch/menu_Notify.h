@@ -10,7 +10,6 @@
 #include "battery.h"
 #include "accl.h"
 #include "push.h"
-#include "heartrate.h"
 #include "fonts.h"
 
 
@@ -20,6 +19,10 @@ class NotifyScreen : public Screen
     virtual void pre()
     {
       set_gray_screen_style(&sans_regular);
+
+      lv_style_copy( &st, &lv_style_plain );
+      st.text.color = lv_color_hsv_to_rgb(10, 5, 95);
+      st.text.font = &mksd50;
 
       lv_obj_t * img1 = lv_img_create(lv_scr_act(), NULL);
       lv_img_set_src(img1, &IsymbolMsgSmall);
@@ -35,7 +38,9 @@ class NotifyScreen : public Screen
       lv_label_set_long_mode(label_msg, LV_LABEL_LONG_BREAK);
       lv_obj_set_width(label_msg,240);
       lv_label_set_text(label_msg, "");
-      lv_label_set_text(label_msg, string2char(get_push_msg()));
+      lv_obj_set_style( label_msg, &st );
+
+      //lv_label_set_text(label_msg, string2char(get_push_msg()));
       lv_obj_align(label_msg, img1, LV_ALIGN_OUT_BOTTOM_LEFT, 0, 5);
 
     }
@@ -88,6 +93,7 @@ class NotifyScreen : public Screen
       
       lv_label_set_text(label_datetime, timedate_string);
       lv_label_set_text(label_msg, string2char(get_push_msg()));
+	  //lv_label_set_text(label_msg, "MATH IN 5 MINUTES!!!");
     }
 
     virtual void long_click()
@@ -122,6 +128,7 @@ class NotifyScreen : public Screen
   private:
     time_data_struct time_data;
     lv_obj_t *label, *label_msg, *label_datetime;
+    lv_style_t st;
 
     char* string2char(String command) {
       if (command.length() != 0) {

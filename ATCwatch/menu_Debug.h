@@ -10,7 +10,6 @@
 #include "sleep.h"
 #include "accl.h"
 #include "push.h"
-#include "heartrate.h"
 #include "backlight.h"
 
 class DebugScreen : public Screen

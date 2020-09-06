@@ -41,8 +41,8 @@ void show_push(String pushMSG) {
   msgText = filter_string(MsgText);
   sleep_up(WAKEUP_BLEPUSH);
   display_notify();
-  set_motor_ms();
-  set_led_ms(100);
+  set_motor_ms(300);
+  set_led_ms(200);
   set_sleep_time();
 }
 

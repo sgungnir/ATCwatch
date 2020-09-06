@@ -8,7 +8,6 @@
 #include "accl.h"
 #include "menu.h"
 #include "ble.h"
-#include "heartrate.h"
 #include "backlight.h"
 #include "inputoutput.h"
 #include "bootloader.h"

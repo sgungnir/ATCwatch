@@ -14,7 +14,7 @@
 #include "inputoutput.h"
 #include "backlight.h"
 #include "battery.h"
-#include "heartrate.h"
+
 #include "time.h"
 #include "touch.h"
 #include "sleep.h"
@@ -27,7 +27,26 @@
 #include "flash.h"
 
 bool stepsWhereReseted = false;
+/*
+int scheduleNotified = 0;
 
+
+sched_data_struct sched1 = {0,20,"Sched item 1 Mon!!"};
+sched_data_struct sched2 = {0,22,"Sched item 2 Mon!!"};
+sched_data_struct sched3 = {0,23,"Sched item 3 Mon!!"};
+sched_data_struct sched4 = {0,24,"Sched item 4 Mon!!"};
+sched_data_struct sched5 = {0,25,"Sched item 5 Mon!!"};
+sched_data_struct sched6 = {0,26,"Sched item 6 Mon!!"};
+sched_data_struct sched7 = {99,2,"Shouldn't play"};
+sched_data_struct schedList[7][10] = {{sched7,sched7,sched7,sched7,sched7,sched7}, //Sunday ? 
+                                      {sched1,sched2,sched3,sched4,sched5,sched6}, //Monday
+                                      {sched7,sched7,sched7,sched7,sched7,sched7}, //Tuesday
+                                      {sched7,sched7,sched7,sched7,sched7,sched7}, //Wednesday
+                                      {sched7,sched7,sched7,sched7,sched7,sched7}, //Thursday
+                                      {sched7,sched7,sched7,sched7,sched7,sched7}, //Friday
+                                      {sched7,sched7,sched7,sched7,sched7,sched7}};//Saturday
+
+*/
 void setup() {
   delay(500);
   if (get_button()) {//if button is pressed on startup goto Bootloader
@@ -46,7 +65,6 @@ void setup() {
   display_booting();
   set_backlight(3);
   init_battery();
-  init_hrs3300();
   init_time();
   init_touch();
   init_sleep();
@@ -59,6 +77,7 @@ void setup() {
   delay(100);
   set_backlight(3);
   display_home();
+  
 }
 
 void loop() {
@@ -78,14 +97,15 @@ void loop() {
       }
     }
     time_data_struct time_data = get_time();
+    checkSchedule();
     if (time_data.hr == 0) {// check for new day
       if (!stepsWhereReseted) {//reset steps on a new day
         stepsWhereReseted = true;
         reset_step_counter();
+        
       }
     } else stepsWhereReseted = false;
 
-    check_timed_heartrate(time_data.min);//Meassure HR every 15minutes
-  }
+      }
   gets_interrupt_flag();//check interrupt flags and do something with it
 }

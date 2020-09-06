@@ -11,7 +11,6 @@
 #include "accl.h"
 #include "push.h"
 #include "flash.h"
-#include "heartrate.h"
 #include "screen_style.h"
 
 
